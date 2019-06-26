@@ -1,0 +1,14 @@
+#!/vendor/bin/sh
+
+RC="/proc/driver/motor_probe_status"
+
+function usage()
+{
+    echo "
+API: ATD TestCommand Interface
+
+FORMAT: adb shell /data/data/MotorMCU_status
+"
+}
+
+cat $RC

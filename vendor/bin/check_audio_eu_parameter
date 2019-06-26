@@ -1,0 +1,16 @@
+#!/vendor/bin/sh
+
+log -p d -t check_audio_eu_parameter "check eu parameter invoked"
+NONCE_LIST=("CN" "JP" "PH" "TW" "SG" "MY" "HK" "TH" "VN" "IL" "BD" "IN" "ID")
+ARRAY_SIZE=$(( ${#NONCE_LIST[@]} - 1 ))
+setprop use.audio.eu.parameters true
+
+for i in $(seq 0 $ARRAY_SIZE)
+do
+    if [[ $(getprop ro.config.versatility) == "${NONCE_LIST[$i]}" ]]
+    then
+        log -p d -t check_audio_eu_parameter "set prop to false."
+        setprop use.audio.eu.parameters false
+    fi
+done
+

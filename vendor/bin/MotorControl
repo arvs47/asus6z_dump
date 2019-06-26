@@ -1,0 +1,88 @@
+#!/vendor/bin/sh
+
+ON="/proc/driver/motor_power"
+REG="/proc/driver/motor_manual"
+RC="/proc/driver/motor_atd_status"
+
+LOG="/proc/fac_printklog"
+
+function usage()
+{
+    echo "
+API: ATD TestCommand Interface
+
+FORMAT: adb shell /data/data/MotorControl Para 1 Para 2
+"
+}
+
+function write_value()
+{
+	echo $1 $2 4 > $REG #$1 is direction and $2 is degree
+}
+function read_value()
+{
+	cat $REG
+}
+function cat_status()
+{
+	result=$(cat $RC)
+	if [ $result -eq 0 ]
+	then
+	    echo "FAIL"
+	else
+	    echo "PASS"
+	fi
+}
+function power_on()
+{
+	echo 1 > $ON
+}
+function power_off()
+{
+	echo 0 > $ON
+}
+
+[ -e $LOG ] && echo "$0 $*"> $LOG
+
+if [ $# -ne 2 ]
+then
+	usage
+	echo "0"
+	exit 1
+fi
+
+output=$(cat $ON)
+if [ $output -eq 0 ]
+then
+	echo "Solo power up..."
+	solo=1
+	power_on
+else
+	solo=0
+fi
+
+reg=$1
+val=$2
+
+echo $reg|grep -Eqi "^0x[0-f]+$"
+rc1=$?
+
+echo $val|grep -Eqi "^0x[0-f]+$"
+rc2=$?
+
+if [ $reg -ge 0 -a $val -ge 0 ]
+then
+	write_value $reg $val
+	#read_value
+	cat_status
+else
+	echo "0"
+	echo "please input legal hex format value!"
+fi
+
+if [ $solo -eq 1 ]
+then
+	echo "Solo power down..."
+	power_off
+fi
+

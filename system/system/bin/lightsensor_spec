@@ -1,0 +1,4 @@
+checkAlgoBase vcnl36863
+light_tolerance 100
+light_spec_lower 50
+light_spec_upper 1100

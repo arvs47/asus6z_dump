@@ -1,0 +1,15 @@
+checkAlgoBase vcnl36863
+proximity_inf_tolerance 100
+proximity_low_tolerance 100
+proximity_hi_tolerance 100
+proximity_pocket_tolerance 100
+proximity_inf_spec_lower 0
+proximity_inf_spec_upper 400
+proximity_low_spec_lower 2
+proximity_low_spec_upper 375
+proximity_hi_spec_lower 10
+proximity_hi_spec_upper 875
+proximity_diff_spec_lower 10
+proximity_diff_spec_upper 775
+proximity_pocket_spec_lower 100
+proximity_pocket_spec_upper 2800
